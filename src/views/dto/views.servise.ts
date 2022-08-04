@@ -7,15 +7,15 @@ import { CreateViewDto } from './create-view.dto';
 export class ViewsService {
   constructor(
     @InjectModel(Views)
-    private viewsModul: typeof Views,
+    private viewsModel: typeof Views,
   ) {}
 
   async getAll(): Promise<Views[]> {
-    return this.viewsModul.findAll();
+    return this.viewsModel.findAll();
   }
 
   async create(payload: CreateViewDto): Promise<Views> {
-    const newView = new this.viewsModul(payload);
+    const newView = new this.viewsModel(payload);
 
     return newView.save();
   }

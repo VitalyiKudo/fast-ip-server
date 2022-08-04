@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { Views } from './views/schemas/views.schema';
 import { ViewsModule } from './views/views.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -13,12 +11,11 @@ import { ViewsModule } from './views/views.module';
       port: 3306,
       username: 'root',
       password: 'password',
-      database: 'forviews',
+      database: 'for_views',
       autoLoadModels: true,
     }),
     ViewsModule,
+    UsersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

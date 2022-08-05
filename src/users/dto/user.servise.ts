@@ -14,6 +14,14 @@ export class UsersService {
     return this.viewsModel.findAll();
   }
 
+  async getOne(id: string) {
+    return this.viewsModel.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
   async create(payload: CreateUserDto): Promise<Users> {
     const newView = new this.viewsModel(payload);
 

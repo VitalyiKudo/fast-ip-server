@@ -10,8 +10,12 @@ export class ViewsService {
     private viewsModel: typeof Views,
   ) {}
 
-  async getAll(): Promise<Views[]> {
-    return this.viewsModel.findAll();
+  async getAll(viewsId: string): Promise<Views[]> {
+    return this.viewsModel.findAll({
+      where: {
+        viewsId,
+      },
+    });
   }
 
   async create(payload: CreateViewDto): Promise<Views> {

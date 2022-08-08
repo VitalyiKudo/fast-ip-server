@@ -3,7 +3,7 @@ import { Views } from 'src/views/schemas/views.schema';
 @Table({ tableName: 'users' })
 export class Users extends Model {
   @Column({ allowNull: false })
-  userName: string;
+  username: string;
 
   @Column({ allowNull: false })
   password: string;

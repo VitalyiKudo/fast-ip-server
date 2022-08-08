@@ -26,7 +26,7 @@ export class UsersService {
   async create(payload: CreateUserDto): Promise<Users> {
     const hash = await argon2.hash(payload.password);
     const newView = new this.viewsModel({
-      userName: payload.userName,
+      username: payload.username,
       password: hash,
       key: payload.key,
     });

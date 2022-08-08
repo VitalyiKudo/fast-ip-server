@@ -11,9 +11,9 @@ export class UsersController {
     return this.usersService.getAll();
   }
 
-  @Get(':key')
+  @Get(':username')
   getOne(@Param() params) {
-    return this.usersService.getOne(params.key);
+    return this.usersService.getOne(params.username);
   }
 
   @Post('/register')

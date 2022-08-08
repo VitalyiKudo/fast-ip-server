@@ -15,10 +15,10 @@ export class UsersService {
     return this.viewsModel.findAll();
   }
 
-  async getOne(key: string) {
+  async getOne(username: string) {
     return this.viewsModel.findOne({
       where: {
-        key,
+        username,
       },
     });
   }
@@ -27,7 +27,7 @@ export class UsersService {
     const hash = await argon2.hash(payload.password);
     const newView = new this.viewsModel({
       username: payload.username,
-      password: hash,
+      password: payload.password,
       key: payload.key,
     });
 

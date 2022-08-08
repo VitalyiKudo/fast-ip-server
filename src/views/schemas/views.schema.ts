@@ -1,14 +1,15 @@
 /* eslint-disable prettier/prettier */
-import { BelongsTo, Column, CreatedAt, DataType, ForeignKey, Model, Table,  } from 'sequelize-typescript';
+import { BelongsTo, Column, CreatedAt, DataType, ForeignKey, Model, PrimaryKey, Table,  } from 'sequelize-typescript';
 import { Users } from 'src/users/schemas/users.schema';
 @Table({tableName: 'views'})
 export class Views extends Model {
   @ForeignKey(() => Users)
   @Column({
     type: DataType.UUID,
-    field: 'views.id',
+    field: 'users.id',
+    defaultValue: '1',
   })
-  viewsId: number
+  userId: number
 
   @Column({allowNull: false})
   ip: string;
@@ -17,7 +18,7 @@ export class Views extends Model {
   country: string;
 
   @Column({ allowNull: false })
-  key: string;
+  username: string;
 
   @CreatedAt
   @Column({allowNull: false})

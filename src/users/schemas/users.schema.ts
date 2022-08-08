@@ -11,6 +11,6 @@ export class Users extends Model {
   @Column({ allowNull: false })
   key: string;
 
-  @HasMany(() => Views, { foreignKey: 'views.id' })
+  @HasMany(() => Views, { foreignKey: 'users.id' })
   views: Views[];
 }

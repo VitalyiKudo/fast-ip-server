@@ -6,6 +6,9 @@ export class Users extends Model {
   userName: string;
 
   @Column({ allowNull: false })
+  password: string;
+
+  @Column({ allowNull: false })
   key: string;
 
   @HasMany(() => Views, { foreignKey: 'views.id' })

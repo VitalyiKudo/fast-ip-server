@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table,  } from 'sequelize-typescript';
+import { BelongsTo, Column, CreatedAt, DataType, ForeignKey, Model, Table,  } from 'sequelize-typescript';
 import { Users } from 'src/users/schemas/users.schema';
 @Table({tableName: 'views'})
 export class Views extends Model {
@@ -18,6 +18,10 @@ export class Views extends Model {
 
   @Column({ allowNull: false })
   key: string;
+
+  @CreatedAt
+  @Column({allowNull: false})
+  createdAt: string
 
   @BelongsTo(() => Users)
   user: Users

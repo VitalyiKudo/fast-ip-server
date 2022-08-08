@@ -10,10 +10,10 @@ export class ViewsService {
     private viewsModel: typeof Views,
   ) {}
 
-  async getAll(viewsId: string): Promise<Views[]> {
+  async getAll(key: string): Promise<Views[]> {
     return this.viewsModel.findAll({
       where: {
-        viewsId,
+        key,
       },
     });
   }

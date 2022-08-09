@@ -5,7 +5,7 @@ export class Users extends Model {
   @Column({ allowNull: false })
   username: string;
 
-  @Column({ allowNull: false })
+  @Column
   password: string;
 
   @Column({ allowNull: false })

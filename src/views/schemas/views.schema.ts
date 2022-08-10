@@ -18,7 +18,7 @@ export class Views extends Model {
   country: string;
 
   @Column({ allowNull: false })
-  username: string;
+  key: string
 
   @CreatedAt
   @Column({allowNull: false})

@@ -11,6 +11,12 @@ export class Users extends Model {
   @Column({ allowNull: false })
   key: string;
 
+  @Column({ unique: true })
+  'access_token': string;
+
+  @Column({ unique: true })
+  'refresh_token': string;
+
   @HasMany(() => Views, { foreignKey: 'users.id' })
   views: Views[];
 }

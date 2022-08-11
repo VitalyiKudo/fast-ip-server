@@ -7,15 +7,27 @@ import { LocalAuthGuard } from './auth/local-auth.guard';
 export class AppController {
   constructor(private authServise: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
-  async login(@Request() req) {
-    return this.authServise.login(req.user);
-  }
+  // @Post('/local/signup')
+  // signupLocal() {}
 
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
+  // @Post('/singin')
+  // singinLocal() {}
+
+  // @Post('/logout')
+  // logout() {}
+
+  // @Post('/refresh')
+  // refreshTokens() {}
+
+  // @UseGuards(LocalAuthGuard)
+  // @Post('auth/login')
+  // async login(@Request() req) {
+  //   return this.authServise.login(req.user);
+  // }
+
+  // @UseGuards(JwtAuthGuard)
+  // @Get('profile')
+  // getProfile(@Request() req) {
+  //   return req.user;
+  // }
 }

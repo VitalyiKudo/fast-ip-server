@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateUserDto, UserProfileDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,8 +20,16 @@ export class AuthService {
     ]);
 
     return {
-      acces_token: at,
+      access_token: at,
       refresh_token: rt,
     };
   }
+
+  // async getProfile(user: UserProfileDto) {
+  //   const payload = { username: user.username, sub: user.key };
+
+  //   return {
+
+  //   }
+  // }
 }

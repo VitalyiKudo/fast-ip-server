@@ -4,6 +4,7 @@ import { Users } from '../schemas/users.schema';
 import { CreateUserDto } from './create-user.dto';
 import * as argon2 from 'argon2';
 import { AuthService } from 'src/auth/auth.service';
+import { Tokens } from 'src/auth/types';
 
 @Injectable()
 export class UsersService {
@@ -25,12 +26,49 @@ export class UsersService {
     });
   }
 
-  async updateRefreshToken(username, refreshTonen) {
+  async create(payload: CreateUserDto): Promise<any> {
+    const hash = await argon2.hash(payload.password);
+    const tokens = await this.authService.getTokens(payload);
+    const newView = new this.usersModel({
+      username: payload.username,
+      password: hash,
+      key: payload.key,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+    });
+
+    newView.save();
+
+    return tokens;
+  }
+
+  async updateTokens(username: string, token: Tokens) {
     const user = await this.getOne(username);
 
-    user.refresh_token = refreshTonen;
+    user.refresh_token = token.refresh_token;
+    user.access_token = token.access_token;
 
-    return refreshTonen;
+    user.save();
+
+    return token;
+  }
+
+  async refreshTokens(username: string, header: string) {
+    const user = await this.getOne(username);
+
+    if (!user) throw new ForbiddenException(`Acces Denied`);
+
+    const refreshToken = header.replace('Bearer', '').trim();
+
+    const rtMatches = refreshToken === user.refresh_token;
+
+    if (!rtMatches) throw new ForbiddenException('Bad password');
+
+    const tokens = await this.authService.getTokens(user);
+
+    await this.updateTokens(username, { access_token: tokens.access_token });
+
+    return tokens;
   }
 
   async login(payload: any) {
@@ -47,24 +85,36 @@ export class UsersService {
 
     const tokens = await this.authService.getTokens(user);
 
-    await this.updateRefreshToken(user.username, tokens.refresh_token);
+    await this.updateTokens(user.username, tokens);
 
     return tokens;
   }
 
-  async create(payload: CreateUserDto): Promise<any> {
-    const hash = await argon2.hash(payload.password);
-    const tokens = await this.authService.getTokens(payload);
-    const newView = new this.usersModel({
-      username: payload.username,
-      password: hash,
-      key: payload.key,
-      access_token: tokens.acces_token,
-      refresh_token: tokens.refresh_token,
+  async logout(username: string): Promise<boolean> {
+    const user = await this.getOne(username);
+
+    await this.updateTokens(user.username, {
+      access_token: null,
+      refresh_token: null,
     });
 
-    newView.save();
+    user.save();
 
-    return tokens;
+    return true;
+  }
+
+  async profile(header: string): Promise<any> {
+    const access_token = header.replace('Bearer', '').trim();
+
+    const user = await this.usersModel.findOne({
+      where: {
+        access_token,
+      },
+    });
+
+    return {
+      username: user.username,
+      key: user.key,
+    };
   }
 }

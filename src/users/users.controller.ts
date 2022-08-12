@@ -23,6 +23,7 @@ export class UsersController {
     return this.usersService.getAll();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('/profile')
   getProfile(@Headers() header) {
     return this.usersService.profile(header.authorization);
@@ -48,17 +49,14 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
-  logout(@Body() user: CreateUserDto) {
-    return this.usersService.logout(user.username);
+  logout(@Headers() headers) {
+    return this.usersService.logout(headers.authorization);
   }
 
   @UseGuards(AuthGuard('jwt-refresh'))
   @Post('/refresh')
   @HttpCode(HttpStatus.OK)
-  refresh(@Body() user, @Headers() headers) {
-    return this.usersService.refreshTokens(
-      user.username,
-      headers.authorization,
-    );
+  refresh(@Headers() headers) {
+    return this.usersService.refreshTokens(headers.authorization);
   }
 }

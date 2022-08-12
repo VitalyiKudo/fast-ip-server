@@ -53,8 +53,14 @@ export class UsersService {
     return token;
   }
 
-  async refreshTokens(username: string, header: string) {
-    const user = await this.getOne(username);
+  async refreshTokens(header: string) {
+    const refresh_token = header.replace('Bearer', '').trim();
+
+    const user = await this.usersModel.findOne({
+      where: {
+        refresh_token,
+      },
+    });
 
     if (!user) throw new ForbiddenException(`Acces Denied`);
 
@@ -66,7 +72,9 @@ export class UsersService {
 
     const tokens = await this.authService.getTokens(user);
 
-    await this.updateTokens(username, { access_token: tokens.access_token });
+    await this.updateTokens(user.username, {
+      access_token: tokens.access_token,
+    });
 
     return tokens;
   }
@@ -90,8 +98,14 @@ export class UsersService {
     return tokens;
   }
 
-  async logout(username: string): Promise<boolean> {
-    const user = await this.getOne(username);
+  async logout(header: string): Promise<boolean> {
+    const access_token = header.replace('Bearer', '').trim();
+
+    const user = await this.usersModel.findOne({
+      where: {
+        access_token,
+      },
+    });
 
     await this.updateTokens(user.username, {
       access_token: null,

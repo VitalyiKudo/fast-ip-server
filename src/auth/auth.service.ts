@@ -11,7 +11,7 @@ export class AuthService {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: 'at-secret',
-        expiresIn: 60 * 15,
+        expiresIn: '1m',
       }),
       this.jwtService.signAsync(payload, {
         secret: 'rt-secret',
@@ -24,12 +24,4 @@ export class AuthService {
       refresh_token: rt,
     };
   }
-
-  // async getProfile(user: UserProfileDto) {
-  //   const payload = { username: user.username, sub: user.key };
-
-  //   return {
-
-  //   }
-  // }
 }

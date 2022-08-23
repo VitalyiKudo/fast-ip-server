@@ -16,6 +16,7 @@ import { AppController } from './app.controller';
         '7e6075bb13758ac4342d07607d0b71484bc610b1eef7e5ea37ef986d353f1083',
       synchronize: true,
       autoLoadModels: true,
+      ssl: false,
     }),
     ViewsModule,
     UsersModule,
